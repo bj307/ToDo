@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/view/manager/Dashboard.java</file>
-            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/view/Login.java</file>
-            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/view/manager/Menu.java</file>
-            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/view/manager/Inicio.java</file>
-            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/view/Setup.java</file>
-            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/view/manager/CadastroTarefa.java</file>
+            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/model/Pessoa.java</file>
+            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/NO/NoPessoa.java</file>
+            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/controller/TarefaController.java</file>
+            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/view/CadastroTarefa.java</file>
+            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/view/Dashboard.java</file>
+            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/controller/PessoaController.java</file>
+            <file>file:/C:/Users/kaior/Desktop/ARQUIVOS%20NETBEANS/ToDo/src/br/com/todo/view/CadastroUser.java</file>
         </group>
     </open-files>
 </project-private>

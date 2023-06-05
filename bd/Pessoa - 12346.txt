@@ -1,0 +1,1 @@
+Pessoa{id=0, codigo=12346, nome=kaio, senha=12345, tipo=GERENTE}

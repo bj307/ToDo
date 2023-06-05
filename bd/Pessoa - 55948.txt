@@ -1,0 +1,1 @@
+Pessoa{id=0, codigo=55948, nome=clarice, senha=kaiosheipado, tipo=FUNCIONÁRIO}

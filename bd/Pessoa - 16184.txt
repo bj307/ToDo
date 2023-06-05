@@ -1,0 +1,1 @@
+Pessoa{id=0, codigo=16184, nome=usuario 1, senha=asndj41654, tipo=GERENTE, tarefas=0, horas=null}
