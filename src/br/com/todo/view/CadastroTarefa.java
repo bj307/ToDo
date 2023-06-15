@@ -6,7 +6,9 @@ package br.com.todo.view;
 
 import br.com.todo.NO.NoTarefa;
 import br.com.todo.controller.TarefaController;
-import br.com.todo.controller.Util;
+import br.com.todo.model.Util;
+import java.time.LocalTime;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,13 +18,52 @@ public class CadastroTarefa extends javax.swing.JPanel {
 
     TarefaController tController = new TarefaController();
     NoTarefa noT = new NoTarefa();
+    //lista principal de tarefas
     NoTarefa.Lista lista = noT.new Lista();
-    CadastroUser user = new CadastroUser();
+    //lista principal de tarefas concluidas
+    NoTarefa.ListaConcluida listaC = noT.new ListaConcluida();
+    //instancia para receber a tela CadastroUser e acessar a lista principal de pessoas
+    CadastroUser user;
+
     /**
      * Creates new form CadastroTarefa
      */
-    public CadastroTarefa() {
+    public CadastroTarefa(CadastroUser user) {
         initComponents();
+        this.user = user;
+    }
+
+    public CadastroUser getUser() {
+        return user;
+    }
+
+    public NoTarefa getTarefa() {
+        return noT;
+    }
+
+    public NoTarefa.Lista getLista() {
+        return lista;
+    }
+
+    public NoTarefa.ListaConcluida getListaC() {
+        return listaC;
+    }
+
+    //verifica se a pessoa já possui uma tarefa cadastrada naquele horario
+    public boolean verificaHora(NoTarefa.Lista list, int codigo, LocalTime hora) {
+        NoTarefa lista = list.getInicio();
+        boolean horaLivre = true;
+        while (lista != null) {
+            if (lista.getTarefa().getPessoa().getCodigo() == codigo) {
+                if (lista.getTarefa().getHoraTarefa().compareTo(hora) == 0) {
+                    horaLivre = false;
+                } else {
+                    horaLivre = true;
+                }
+            }
+            lista = lista.getProximo();
+        }
+        return horaLivre;
     }
 
     /**
@@ -34,9 +75,14 @@ public class CadastroTarefa extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanelForm = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
         nomeTarefa = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        duracao = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         descTarefa = new javax.swing.JTextArea();
         dataTarefa = new javax.swing.JTextField();
@@ -44,40 +90,16 @@ public class CadastroTarefa extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         horaTarefa = new javax.swing.JTextField();
         codigoResp = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        duracao = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        nomeTarefa.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
-
-        jLabel1.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
-        jLabel1.setText("Nome da tarefa");
-
-        jLabel2.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
-        jLabel2.setText("Descrição da tarefa");
-
-        descTarefa.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
-        descTarefa.setLineWrap(true);
-        descTarefa.setRows(5);
-        jScrollPane1.setViewportView(descTarefa);
-
-        dataTarefa.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
-
-        jLabel3.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
-        jLabel3.setText("Data");
-
-        jLabel4.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
-        jLabel4.setText("Hora");
-
-        horaTarefa.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
-
-        codigoResp.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        jPanelForm.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel5.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
         jLabel5.setText("Código do responsável");
+
+        nomeTarefa.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        nomeTarefa.setText("Tarefa teste");
 
         jButton2.setBackground(new java.awt.Color(204, 255, 255));
         jButton2.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
@@ -88,83 +110,140 @@ public class CadastroTarefa extends javax.swing.JPanel {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
+        jLabel1.setText("Nome da tarefa");
+
         duracao.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
+        duracao.setText("01:00:00");
+
+        jLabel2.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
+        jLabel2.setText("Descrição da tarefa");
 
         jLabel6.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
         jLabel6.setText("Duração");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        descTarefa.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        descTarefa.setLineWrap(true);
+        descTarefa.setRows(5);
+        descTarefa.setText("Descriao da tarefa teste");
+        jScrollPane1.setViewportView(descTarefa);
+
+        dataTarefa.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        dataTarefa.setText("2023-10-10");
+
+        jLabel3.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
+        jLabel3.setText("Data");
+
+        jLabel4.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
+        jLabel4.setText("Hora");
+
+        horaTarefa.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        horaTarefa.setText("15:00:00");
+
+        codigoResp.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        codigoResp.setText("12345");
+
+        javax.swing.GroupLayout jPanelFormLayout = new javax.swing.GroupLayout(jPanelForm);
+        jPanelForm.setLayout(jPanelFormLayout);
+        jPanelFormLayout.setHorizontalGroup(
+            jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFormLayout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nomeTarefa)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelFormLayout.createSequentialGroup()
+                        .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(horaTarefa, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                        .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(horaTarefa)
                             .addComponent(dataTarefa)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)))
+                            .addGroup(jPanelFormLayout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(54, 54, 54))
+                            .addGroup(jPanelFormLayout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(53, 53, 53))))
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelFormLayout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(176, 176, 176))
+                    .addGroup(jPanelFormLayout.createSequentialGroup()
+                        .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(codigoResp)
-                            .addComponent(jLabel5))
+                            .addGroup(jPanelFormLayout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(7, 7, 7)))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelFormLayout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(4, 4, 4))
                             .addComponent(duracao))))
-                .addGap(55, 55, 55))
+                .addGap(49, 49, 49))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+        jPanelFormLayout.setVerticalGroup(
+            jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFormLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(nomeTarefa, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanelFormLayout.createSequentialGroup()
                         .addComponent(dataTarefa, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
                         .addComponent(horaTarefa, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(duracao)
-                    .addComponent(codigoResp, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
-                .addGap(70, 70, 70)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(codigoResp, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanelForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        tController.cadastrar(this);
-        //lista.exibirLista();
-        //new Util().LimpaTela(this);
+        //verifica se o usuário existe
+        if (user.vCod(Integer.parseInt(codigoResp.getText()))) {
+            JOptionPane.showMessageDialog(null, "Usuário não existe.");
+        } else {
+            //caso o usuário exista, é verificado se já possui uma tarefa naquele horário
+            if (verificaHora(getLista(), Integer.parseInt(codigoResp.getText()), LocalTime.parse(horaTarefa.getText()))) {
+                lista.inserirNoInicio(tController.cadastrar(this));
+                descTarefa.setText("");
+                new Util().LimpaTela(jPanelForm);
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuário já possui tarefa nesse horario.");
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
@@ -181,6 +260,7 @@ public class CadastroTarefa extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanelForm;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTextField nomeTarefa;
     // End of variables declaration//GEN-END:variables

@@ -6,14 +6,13 @@ package br.com.todo.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 /**
  *
  * @author kaior
  */
 public class Tarefa {
-    
+
     private int id;
     private String nome;
     private String descricao;

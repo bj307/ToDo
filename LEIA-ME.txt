@@ -1,0 +1,10 @@
+DISCENTES: CLARICE ALVES & KAIO RESENTE
+
+Antes de executar o projeto, importe o arquivo jar "flatlaf-demo-3.1.1"
+
+A tela principal é a Setup, enquanto ela estiver aberta é possivel abrir diversos 
+dashboards de niveis diferente e eles vão comunicar entre si (tarefas e usuários)
+
+Existe um usuário padrão
+Usuário: 12345
+Senha: senha

@@ -4,8 +4,6 @@
  */
 package br.com.todo.model;
 
-import br.com.todo.NO.NoPessoa;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 
 /**
@@ -13,7 +11,7 @@ import java.time.LocalTime;
  * @author kaior
  */
 public class Pessoa {
-    
+
     private int id;
     private int codigo;
     private String nome;
@@ -21,10 +19,10 @@ public class Pessoa {
     private String tipo;
     private int tarefas;
     private LocalTime horas = LocalTime.of(0, 0);
-    
+
     public Pessoa() {
     }
-    
+
     public Pessoa(int id, int codigo, String nome, String senha, String tipo) {
         this.id = id;
         this.codigo = codigo;
@@ -66,11 +64,11 @@ public class Pessoa {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
+
     public String getTipo() {
         return tipo;
     }
-    
+
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
@@ -96,6 +94,4 @@ public class Pessoa {
         return "Pessoa{" + "id=" + id + ", codigo=" + codigo + ", nome=" + nome + ", senha=" + senha + ", tipo=" + tipo + ", tarefas=" + tarefas + ", horas=" + horas + '}';
     }
 
-    
-    
 }

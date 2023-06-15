@@ -12,11 +12,30 @@ import com.formdev.flatlaf.IntelliJTheme;
  */
 public class DetalheTarefa extends javax.swing.JFrame {
 
+    TarefaUni tUni;
+
     /**
      * Creates new form DetalheTarefa
      */
     public DetalheTarefa() {
         initComponents();
+    }
+
+    //preenche com os dados da tarefa selecionada
+    public void preencher(TarefaUni tUni) {
+        this.tUni = tUni;
+        nomeTarefa.setText(tUni.getNoT().getTarefa().getNome());
+        descTarefa.setText(tUni.getNoT().getTarefa().getDescricao());
+        dataTarefa.setText(tUni.getNoT().getTarefa().getDataTarefa().toString());
+        horaTarefa.setText(tUni.getNoT().getTarefa().getHoraTarefa().toString());
+        responsavelTarefa.setText(String.valueOf(tUni.getNoT().getTarefa().getPessoa().getCodigo()));
+
+        //verifica o status para mostrar ou ocultar o botao de Concluir Tarefa
+        if (tUni.getNoT().getTarefa().getStatus().equals("Concluido")) {
+            btnConcluir.setVisible(false);
+        } else {
+            btnConcluir.setVisible(true);
+        }
     }
 
     /**
@@ -41,9 +60,8 @@ public class DetalheTarefa extends javax.swing.JFrame {
         horaTarefa = new javax.swing.JTextField();
         responsavelTarefa = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnConcluir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Detalhes da tarefa");
         setResizable(false);
 
@@ -81,13 +99,23 @@ public class DetalheTarefa extends javax.swing.JFrame {
 
         responsavelTarefa.setEditable(false);
         responsavelTarefa.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
+        responsavelTarefa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                responsavelTarefaMouseReleased(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         jLabel6.setText("Responsável");
 
-        jButton1.setBackground(new java.awt.Color(204, 255, 204));
-        jButton1.setFont(new java.awt.Font("Montserrat Medium", 0, 24)); // NOI18N
-        jButton1.setText("CONCLUIR TAREFA");
+        btnConcluir.setBackground(new java.awt.Color(153, 255, 102));
+        btnConcluir.setFont(new java.awt.Font("Montserrat Medium", 0, 24)); // NOI18N
+        btnConcluir.setText("CONCLUIR TAREFA");
+        btnConcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -113,7 +141,7 @@ public class DetalheTarefa extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(responsavelTarefa)))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnConcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -144,7 +172,7 @@ public class DetalheTarefa extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(responsavelTarefa, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                .addComponent(btnConcluir, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
                 .addGap(26, 26, 26))
         );
 
@@ -164,6 +192,19 @@ public class DetalheTarefa extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void responsavelTarefaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_responsavelTarefaMouseReleased
+        //clicou no codigo do responsavel
+        DetalheUser dUser = new DetalheUser();
+        dUser.preencher(tUni.getNoT().getTarefa().getPessoa());
+        dUser.setVisible(true);
+    }//GEN-LAST:event_responsavelTarefaMouseReleased
+
+    private void btnConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConcluirActionPerformed
+        tUni.getNoT().getTarefa().setStatus("Concluido");
+        btnConcluir.setVisible(false);
+        tUni.lista.moverConcluido(tUni.getNoT().getTarefa(), tUni.listaC);
+    }//GEN-LAST:event_btnConcluirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -180,10 +221,10 @@ public class DetalheTarefa extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConcluir;
     private javax.swing.JTextField dataTarefa;
     private javax.swing.JTextArea descTarefa;
     private javax.swing.JTextField horaTarefa;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

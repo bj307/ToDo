@@ -4,31 +4,69 @@
  */
 package br.com.todo.view;
 
+import br.com.todo.NO.NoTarefa;
+import br.com.todo.NO.QuickSort;
+
 /**
  *
  * @author kaior
  */
 public class TarefaList extends javax.swing.JPanel {
 
-    TarefaUni uni = new TarefaUni();
+    NoTarefa.Lista listaT;
+    NoTarefa.ListaConcluida listaC;
+
     /**
      * Creates new form TarefaList
      */
-    public TarefaList() {
+    public TarefaList(NoTarefa.Lista list, NoTarefa.ListaConcluida listC) {
         initComponents();
+        this.listaT = list;
+        this.listaC = listC;
     }
 
+    //metodo atualiza a lista de tarefas abertas
     public void atualizaLista() {
+        //chama o metodo de ordenação para organizar de acordo com a data de cada tarefa
+        QuickSort.quicksortT(listaT);
+        //cria um novo nó que recebe o inicio da lista
+        NoTarefa noT = listaT.getInicio();
+        //limpa o painel lista
         lista.removeAll();
-        lista.setLayout(new java.awt.GridLayout(10, 1));
-        int num = 0;
-        while(num <= 5) {
-            lista.add(add(new TarefaUni()), 0);
-            num = num+1;
-            System.out.println(num);
+        if (listaT.getTamanho() > 10) {
+            lista.setLayout(new java.awt.GridLayout(listaT.getTamanho(), 1));
+        } else {
+            lista.setLayout(new java.awt.GridLayout(10, 1));
         }
-        uni.setVisible(true);
+        //enquanto o nó lista não for nulo, o painel irá adicionar uma tela para cada
+        while (noT != null) {
+            //o painel adiciona uma tela com os dados do nó
+            lista.add(add(new TarefaUni(noT, listaT, listaC)), 0);
+            //o nó recebe o próximo para continuar
+            noT = noT.getProximo();
+            lista.repaint();
+            this.repaint();
+        }
     }
+
+    //mesma lógica do metodo anterior, agora usando a lista de tarefas concluidas
+    public void atualizaListaC() {
+        QuickSort.quicksortC(listaC);
+        NoTarefa noT = listaC.getInicio();
+        lista.removeAll();
+        if (listaC.getTamanho() > 10) {
+            lista.setLayout(new java.awt.GridLayout(listaC.getTamanho(), 1));
+        } else {
+            lista.setLayout(new java.awt.GridLayout(10, 1));
+        }
+        while (noT != null) {
+            lista.add(add(new TarefaUni(noT, listaT, listaC)), 0);
+            noT = noT.getProximo();
+            lista.repaint();
+            this.repaint();
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,7 +91,7 @@ public class TarefaList extends javax.swing.JPanel {
         jLabel2.setText("Tarefa");
 
         jLabel3.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
-        jLabel3.setText("Data");
+        jLabel3.setText("Status");
 
         lista.setBackground(new java.awt.Color(255, 255, 255));
 

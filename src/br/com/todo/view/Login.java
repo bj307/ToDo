@@ -4,7 +4,9 @@
  */
 package br.com.todo.view;
 
+import br.com.todo.model.Pessoa;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,15 +15,50 @@ import javax.swing.ImageIcon;
 public class Login extends javax.swing.JPanel {
 
     ImageIcon icon = new ImageIcon("src/assets/todoLogo.png");
+    Pessoa login = new Pessoa();
+    CadastroUser cUser;
+    Setup setup;
+
+    //cria pessoa adm para primeiro acesso
+    Pessoa adm = new Pessoa(1, 12345, "Kaio", "senha", "GERENTE");
+
+    public Login() {
+    }
 
     /**
      * Creates new form Login
      */
-    public Login() {
+    public Login(CadastroUser cUser, Setup setup) {
         initComponents();
+        this.setup = setup;
+        this.cUser = cUser;
         icon.setImage(icon.getImage().getScaledInstance(340, 128, 1));
         jIcon.setIcon(icon);
+        cUser.getLista().inserirNoInicio(adm);
+    }
 
+    //verifica os dados do login
+    public void verificaDados() {
+        //recebe o codigo inserido no input usuario
+        int codigo = Integer.parseInt(user.getText());
+        //recebe a senha inserida no input senha
+        String senha = pass.getText();
+        if (!cUser.vCod(codigo)) {
+            //caso o usuário exista, da inicio a verificação de senha dele
+            if (senha.equals(cUser.getLista().buscar(codigo).getSenha())) {
+                login = cUser.getLista().buscar(codigo);
+                //se a senha estiver certa, chama o metodo logar passando a pessoa
+                setup.logar(login);
+            } else {
+                JOptionPane.showMessageDialog(null, "Senha errada.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuário inexistente.");
+        }
+    }
+
+    public Pessoa getLogin() {
+        return login;
     }
 
     /**
@@ -33,27 +70,27 @@ public class Login extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        user = new javax.swing.JTextField();
+        pass = new javax.swing.JTextField();
         jIcon = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnEntrar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField1.setBackground(new java.awt.Color(242, 242, 242));
-        jTextField1.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
-        jTextField1.setToolTipText("Nome");
-        jTextField1.setBorder(null);
-        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        user.setBackground(new java.awt.Color(242, 242, 242));
+        user.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
+        user.setToolTipText("Nome");
+        user.setBorder(null);
+        user.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
-        jTextField3.setBackground(new java.awt.Color(242, 242, 242));
-        jTextField3.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
-        jTextField3.setBorder(null);
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        pass.setBackground(new java.awt.Color(242, 242, 242));
+        pass.setFont(new java.awt.Font("Montserrat Medium", 0, 14)); // NOI18N
+        pass.setBorder(null);
+        pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                passActionPerformed(evt);
             }
         });
 
@@ -63,8 +100,13 @@ public class Login extends javax.swing.JPanel {
 
         jLabel2.setText("Usuário");
 
-        jButton1.setText("ENTRAR");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEntrar.setText("ENTRAR");
+        btnEntrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEntrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEntrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -76,13 +118,13 @@ public class Login extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(pass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                                .addComponent(user, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jIcon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
+                    .addComponent(btnEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -93,28 +135,33 @@ public class Login extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
                 .addGap(2, 2, 2)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_passActionPerformed
+
+    private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
+        //chama o metodo verificar os dados quando clicar em Entrar
+        verificaDados();
+    }//GEN-LAST:event_btnEntrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnEntrar;
     private javax.swing.JLabel jIcon;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField pass;
+    private javax.swing.JTextField user;
     // End of variables declaration//GEN-END:variables
 }

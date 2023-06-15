@@ -4,30 +4,48 @@
  */
 package br.com.todo.view;
 
+import br.com.todo.NO.NoPessoa;
+import br.com.todo.NO.QuickSort;
+
 /**
  *
  * @author kaior
  */
 public class UserList extends javax.swing.JPanel {
 
-    UserUni uni = new UserUni();
+    CadastroUser user;
+
     /**
      * Creates new form UserList
      */
-    public UserList() {
+    public UserList(CadastroUser user) {
         initComponents();
+        this.user = user;
     }
-    
+
+    //atualiza a lista de usuários
     public void atualizaLista() {
+        //ordena a lista de usuários de acordo com a quantidade de atividades de cada um
+        QuickSort.quicksortP(user.getLista());
+        //cria um nó de pessoa que recebe o inicio da lista
+        NoPessoa noP = user.getLista().getInicio();
+        //limpa o painel lista
         lista.removeAll();
-        lista.setLayout(new java.awt.GridLayout(10, 1));
-        int num = 0;
-        while(num <= 5) {
-            lista.add(add(new UserUni()), 0);
-            num = num+1;
-            System.out.println(num);
+        if (user.getLista().getTamanho() > 10) {
+            lista.setLayout(new java.awt.GridLayout(user.getLista().getTamanho(), 1));
+        } else {
+            lista.setLayout(new java.awt.GridLayout(10, 1));
         }
-        uni.setVisible(true);
+        //enquanto o nó de pessoa não for nulo, é adicionado uma tela com os dados da pessoa
+        //e o nó recebe o proximo
+        while (noP != null) {
+            //dados de pessoa é adicionado na tela
+            lista.add(new UserUni(noP), 0);
+            //nó de pessoa recebe o próximo para continuar
+            noP = noP.getProximo();
+            lista.repaint();
+            this.repaint();
+        }
     }
 
     /**

@@ -4,10 +4,6 @@
  */
 package br.com.todo.view;
 
-import java.awt.CardLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 
 /**
@@ -18,9 +14,8 @@ public class Menu extends javax.swing.JPanel {
 
     ImageIcon icon = new ImageIcon("src/assets/todoLogo.png");
 
-
     /**
-     * Creates new form Menu
+     * Cria a area de menu com a logo
      */
     public Menu() {
         initComponents();

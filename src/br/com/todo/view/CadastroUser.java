@@ -6,7 +6,9 @@ package br.com.todo.view;
 
 import br.com.todo.NO.NoPessoa;
 import br.com.todo.controller.PessoaController;
-import br.com.todo.controller.Util;
+import br.com.todo.model.Util;
+import br.com.todo.model.Pessoa;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,9 +18,14 @@ public class CadastroUser extends javax.swing.JPanel {
 
     PessoaController pController = new PessoaController();
     private NoPessoa noP = new NoPessoa();
+    //lista principal de pessoas
     private NoPessoa.Lista lista = noP.new Lista();
 
-    public NoPessoa.Lista getLista(){
+    public NoPessoa getPessoa() {
+        return noP;
+    }
+
+    public NoPessoa.Lista getLista() {
         return lista;
     }
 
@@ -27,6 +34,16 @@ public class CadastroUser extends javax.swing.JPanel {
      */
     public CadastroUser() {
         initComponents();
+    }
+
+    //verifica se já existe um usuário com o codigo
+    public boolean vCod(int cod) {
+        Pessoa p = lista.buscar(cod);
+        if (p == null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -54,6 +71,8 @@ public class CadastroUser extends javax.swing.JPanel {
         jLabel1.setText("Nome");
 
         nomeUser.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        nomeUser.setText("kaio");
+        nomeUser.setToolTipText("");
 
         jLabel2.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
         jLabel2.setText("Codigo");
@@ -62,18 +81,25 @@ public class CadastroUser extends javax.swing.JPanel {
         jLabel3.setText("Senha");
 
         senhaUser.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
+        senhaUser.setText("senha");
 
         jLabel4.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
         jLabel4.setText("Tipo");
 
         tipoUser.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
-        tipoUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GERENTE", "FUNCIONÁRIO" }));
+        tipoUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GERENTE", "FUNCIONARIO" }));
+        tipoUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tipoUserActionPerformed(evt);
+            }
+        });
 
         try {
             codUser.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        codUser.setText("12345");
         codUser.setFont(new java.awt.Font("Montserrat Medium", 0, 16)); // NOI18N
 
         jButton1.setBackground(new java.awt.Color(204, 255, 255));
@@ -92,8 +118,11 @@ public class CadastroUser extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(nomeUser)
-                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -107,10 +136,6 @@ public class CadastroUser extends javax.swing.JPanel {
                             .addComponent(jLabel4)
                             .addComponent(tipoUser, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(55, 55, 55))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,9 +166,18 @@ public class CadastroUser extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        lista.inserirNoInicio(pController.cadastrar(this));
-        //new Util().LimpaTela(this);
+        //é feito a verificação se já existe um usário com o codigo inserido
+        if (vCod(Integer.parseInt(codUser.getText()))) {
+            lista.inserirNoInicio(pController.cadastrar(this));
+            new Util().LimpaTela(this);
+        } else {
+            JOptionPane.showMessageDialog(null, "Código em uso, tente outro.");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tipoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipoUserActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -7,31 +7,54 @@ package br.com.todo.NO;
 import br.com.todo.model.Pessoa;
 
 /**
- *
+ * a classe representa um nó de pessoa em uma lista duplamente encadeada
  * @author kaior
  */
 public class NoPessoa {
 
-    private Pessoa pessoa;
+    /** Pessoa armazenada no nó */
+    public Pessoa pessoa;
+    /** Referência ao nó(pessoa) anterior */
     private NoPessoa anterior;
+    /** Referência ao próximo nó(pessoa) */
     private NoPessoa proximo;
 
+    /**
+     * cria um nó com uma pessoa especifica
+     * 
+     * @param pessoa : a pessoa que vai ser armazenada no nó
+     */
     public NoPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
         this.anterior = null;
         this.proximo = null;
     }
-    
-    public NoPessoa(){
+
+    public NoPessoa() {
         this.pessoa = null;
         this.anterior = null;
         this.proximo = null;
     }
 
+    /**
+     * a classe representa uma lista duplamente encadeada de pessoas
+     */
     public class Lista {
 
+        /** Referencia ao primeiro nó da lista */
         private NoPessoa inicio;
+        /** Referencia ao último nó da lista */
         private NoPessoa fim;
+        /** Tamanho da lista */
+        private int tamanho;
+
+        public int getTamanho() {
+            return tamanho;
+        }
+
+        public void setTamanho(int tamanho) {
+            this.tamanho = tamanho;
+        }
 
         public NoPessoa getInicio() {
             return inicio;
@@ -54,11 +77,20 @@ public class NoPessoa {
             this.fim = null;
         }
 
+        /**
+         * Verifica se a lista está vazia.
+         * 
+         * @return true se a lista estiver vazia, false caso esteja cheia
+         */
         public boolean estaVazia() {
             return inicio == null;
         }
 
-        //insere no inicio
+        /**
+         * Insere uma pessoa no inicio da lista
+         * 
+         * @param p : a pessoa a ser inserida
+         */
         public void inserirNoInicio(Pessoa p) {
             //novo nó pessoa
             NoPessoa novoNo = new NoPessoa(p);
@@ -69,6 +101,7 @@ public class NoPessoa {
                 //se a lista estiver vazia, o inicio e o fim vai ser igual o novo nó, pois só existe um nó
                 inicio = novoNo;
                 fim = novoNo;
+                tamanho = tamanho + 1;
             } else {
 
                 //se tiver algo, o "proximo" do novo nó será o inicio da fila que ja existe
@@ -79,10 +112,15 @@ public class NoPessoa {
 
                 //o inicio se torna o novo nó
                 inicio = novoNo;
+                tamanho = tamanho + 1;
             }
         }
 
-        //insere no fim
+        /**
+         * Insere uma pessoa no fim da lista
+         * metodo criado apenas para teste, não é utilizado no programa
+         * @param p : a pessoa a ser inserida
+         */
         public void inserirNoFim(Pessoa p) {
             //novo nó pessoa
             NoPessoa novoNo = new NoPessoa(p);
@@ -93,6 +131,7 @@ public class NoPessoa {
                 //se a lista estiver vazia, o inicio e o fim vai ser igual o novo nó, pois só existe um nó
                 inicio = novoNo;
                 fim = novoNo;
+                tamanho = tamanho + 1;
             } else {
 
                 //se tiver algo, ele vai para o fim, e coloca o novo nó como proximo
@@ -103,9 +142,13 @@ public class NoPessoa {
 
                 //muda o fim para o novo nó
                 fim = novoNo;
+                tamanho = tamanho + 1;
             }
         }
 
+        /**
+         * Exibe todas as pessoas da lista
+         */
         public void exibirLista() {
             NoPessoa atual = inicio;
 
@@ -115,12 +158,17 @@ public class NoPessoa {
                 atual = atual.getProximo();
             }
         }
-        
+
+        /**
+         * Busca uma pessoa na lista pelo seu codigo
+         * 
+         * @param cod : o codigo da pessoa a ser buscada
+         * @return a pessoa encontrada, ou null se não encontrada
+         */
         public Pessoa buscar(int cod) {
             NoPessoa atual = inicio;
-            
-            while(atual != null) {
-                if(atual.pessoa.getCodigo() == cod) {
+            while (atual != null) {
+                if (atual.pessoa.getCodigo() == cod) {
                     return atual.pessoa;
                 } else {
                     atual = atual.proximo;
