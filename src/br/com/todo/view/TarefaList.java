@@ -6,6 +6,7 @@ package br.com.todo.view;
 
 import br.com.todo.NO.NoTarefa;
 import br.com.todo.NO.QuickSort;
+import br.com.todo.model.Pessoa;
 
 /**
  *
@@ -15,14 +16,16 @@ public class TarefaList extends javax.swing.JPanel {
 
     NoTarefa.Lista listaT;
     NoTarefa.ListaConcluida listaC;
+    Pessoa logado;
 
     /**
      * Creates new form TarefaList
      */
-    public TarefaList(NoTarefa.Lista list, NoTarefa.ListaConcluida listC) {
+    public TarefaList(NoTarefa.Lista list, NoTarefa.ListaConcluida listC, Pessoa login) {
         initComponents();
         this.listaT = list;
         this.listaC = listC;
+        this.logado = login;
     }
 
     //metodo atualiza a lista de tarefas abertas
@@ -40,12 +43,28 @@ public class TarefaList extends javax.swing.JPanel {
         }
         //enquanto o nó lista não for nulo, o painel irá adicionar uma tela para cada
         while (noT != null) {
-            //o painel adiciona uma tela com os dados do nó
-            lista.add(add(new TarefaUni(noT, listaT, listaC)), 0);
-            //o nó recebe o próximo para continuar
-            noT = noT.getProximo();
-            lista.repaint();
-            this.repaint();
+            if (logado.getTipo().equals("GERENTE")) {
+                //o painel adiciona uma tela com os dados do nó
+                lista.add(add(new TarefaUni(noT, listaT, listaC)), 0);
+                //o nó recebe o próximo para continuar
+                noT = noT.getProximo();
+                lista.repaint();
+                this.repaint();
+            } else {
+                if (noT.getTarefa().getPessoa().getCodigo() == logado.getCodigo()) {
+                    //o painel adiciona uma tela com os dados do nó
+                    lista.add(add(new TarefaUni(noT, listaT, listaC)), 0);
+                    //o nó recebe o próximo para continuar
+                    noT = noT.getProximo();
+                    lista.repaint();
+                    this.repaint();
+                } else {
+                    noT = noT.getProximo();
+                    lista.repaint();
+                    this.repaint();
+                }
+            }
+
         }
     }
 
@@ -60,10 +79,27 @@ public class TarefaList extends javax.swing.JPanel {
             lista.setLayout(new java.awt.GridLayout(10, 1));
         }
         while (noT != null) {
-            lista.add(add(new TarefaUni(noT, listaT, listaC)), 0);
-            noT = noT.getProximo();
-            lista.repaint();
-            this.repaint();
+            if (logado.getTipo().equals("GERENTE")) {
+                //o painel adiciona uma tela com os dados do nó
+                lista.add(add(new TarefaUni(noT, listaT, listaC)), 0);
+                //o nó recebe o próximo para continuar
+                noT = noT.getProximo();
+                lista.repaint();
+                this.repaint();
+            } else {
+                if (noT.getTarefa().getPessoa().getCodigo() == logado.getCodigo()) {
+                    //o painel adiciona uma tela com os dados do nó
+                    lista.add(add(new TarefaUni(noT, listaT, listaC)), 0);
+                    //o nó recebe o próximo para continuar
+                    noT = noT.getProximo();
+                    lista.repaint();
+                    this.repaint();
+                } else {
+                    noT = noT.getProximo();
+                    lista.repaint();
+                    this.repaint();
+                }
+            }
         }
     }
 

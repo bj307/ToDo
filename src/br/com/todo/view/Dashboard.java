@@ -33,7 +33,7 @@ public class Dashboard extends javax.swing.JFrame {
         this.cadTarefa = setup.cadTarefa;
         this.cadUser = setup.cadUser;
         inicio = new Inicio(cadTarefa, cadUser);
-        tarefas = new TarefaList(cadTarefa.getLista(), cadTarefa.getListaC());
+        tarefas = new TarefaList(cadTarefa.getLista(), cadTarefa.getListaC(), login);
         userList = new UserList(cadUser);
         this.setLocationRelativeTo(null);
         this.setTitle("To Do");
